@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #pragma warning(disable:4996)
 
-typedef struct TreeNode { //±¸Á¶Ã¼·Î Æ®¸® ¼±¾ğ
+typedef struct TreeNode { //êµ¬ì¡°ì²´ë¡œ íŠ¸ë¦¬ ì„ ì–¸
     int data;
     struct TreeNode* left, * right;
 } TreeNode;
@@ -13,7 +13,7 @@ typedef struct TreeNode { //±¸Á¶Ã¼·Î Æ®¸® ¼±¾ğ
 //   4   12     19         30   35
 
 
-TreeNode n1 = { 4, NULL, NULL }; //°¢°¢ÀÇ ³ëµå Á¤ÀÇ
+TreeNode n1 = { 4, NULL, NULL }; //ê°ê°ì˜ ë…¸ë“œ ì •ì˜
 TreeNode n2 = { 12, NULL, NULL };
 TreeNode n3 = { 19, NULL, NULL };
 TreeNode n4 = { 10, &n1, &n2 };
@@ -31,18 +31,18 @@ void preorder_value(TreeNode* root, int value)
 {
     if (root)
     {
-        if (root->data < value) //ÀÔ·Â°ªº¸´Ù ÀÛ´Ù¸é
-            printf("%dº¸´Ù ÀÛÀº ³ëµå : %d\n", value, root->data); //³ëµå Ãâ·Â
-        preorder_value(root->left, value); //¿ŞÂÊ ¼­ºê Æ®¸®
-        preorder_value(root->right, value); //¿À¸¥ÂÊ ¼­ºê Æ®¸®
+        if (root->data < value) //ì…ë ¥ê°’ë³´ë‹¤ ì‘ë‹¤ë©´
+            printf("%dë³´ë‹¤ ì‘ì€ ë…¸ë“œ : %d\n", value, root->data); //ë…¸ë“œ ì¶œë ¥
+        preorder_value(root->left, value); //ì™¼ìª½ ì„œë¸Œ íŠ¸ë¦¬
+        preorder_value(root->right, value); //ì˜¤ë¥¸ìª½ ì„œë¸Œ íŠ¸ë¦¬
     }
 }
 
 int main(void)
 {
     int value = 0;
-    printf("°ªÀ» ÀÔ·ÂÇÏ½Ã¿À: ");
-    scanf("%d", &value); //ÀÔ·Â°ªÀ» ¹Ş¾Æ¿Â´Ù
+    printf("ê°’ì„ ì…ë ¥í•˜ì‹œì˜¤: ");
+    scanf("%d", &value); //ì…ë ¥ê°’ì„ ë°›ì•„ì˜¨ë‹¤
 
     preorder_value(root, value);
     return 0;
