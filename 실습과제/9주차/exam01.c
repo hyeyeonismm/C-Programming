@@ -1,7 +1,7 @@
 #include <stdio.h>
 #pragma warning(disable:4996)
 
-typedef struct TreeNode { //±¸Á¶Ã¼·Î ³ëµå Á¤ÀÇ
+typedef struct TreeNode { //êµ¬ì¡°ì²´ë¡œ ë…¸ë“œ ì •ì˜
 	int data;
 	struct TreeNode* left, * right;
 }TreeNode;
@@ -11,7 +11,7 @@ typedef struct TreeNode { //±¸Á¶Ã¼·Î ³ëµå Á¤ÀÇ
 //	   10     17       26    33
 //   4   12     19         30   35
 
-TreeNode n1 = { 4, NULL, NULL }; //°¢°¢ÀÇ ³ëµå Á¤ÀÇ
+TreeNode n1 = { 4, NULL, NULL }; //ê°ê°ì˜ ë…¸ë“œ ì •ì˜
 TreeNode n2 = { 12, NULL, NULL };
 TreeNode n3 = { 19, NULL, NULL };
 TreeNode n4 = { 10, &n1, &n2 };
@@ -26,30 +26,30 @@ TreeNode n12 = { 20, &n6, &n11 };
 TreeNode* root = &n12;
 
 
-//ÁßÀ§ ¼øÈ¸
+//ì¤‘ìœ„ ìˆœíšŒ
 inorder(TreeNode* root) {
 	if (root) {
-		inorder(root->left); //¿ŞÂÊ ¼­ºêÆ®¸® ¼øÈ¸
-		printf("%d ", root->data); //³ëµå ¹æ¹®
-		inorder(root->right); //¿À¸¥ÂÊ ¼­ºêÆ®¸® ¼øÈ¸
+		inorder(root->left); //ì™¼ìª½ ì„œë¸ŒíŠ¸ë¦¬ ìˆœíšŒ
+		printf("%d ", root->data); //ë…¸ë“œ ë°©ë¬¸
+		inorder(root->right); //ì˜¤ë¥¸ìª½ ì„œë¸ŒíŠ¸ë¦¬ ìˆœíšŒ
 	}
 }
 
-//ÀüÀ§ ¼øÈ¸
+//ì „ìœ„ ìˆœíšŒ
 preorder(TreeNode* root) {
 	if (root) {
-		printf("%d ", root->data); //³ëµå ¹æ¹®
- 		preorder(root->left); //¿ŞÂÊ ¼­ºêÆ®¸® ¼øÈ¸
-		preorder(root->right); //¿À¸¥ÂÊ ¼­ºêÆ®¸® ¼øÈ¸
+		printf("%d ", root->data); //ë…¸ë“œ ë°©ë¬¸
+ 		preorder(root->left); //ì™¼ìª½ ì„œë¸ŒíŠ¸ë¦¬ ìˆœíšŒ
+		preorder(root->right); //ì˜¤ë¥¸ìª½ ì„œë¸ŒíŠ¸ë¦¬ ìˆœíšŒ
 	}
 }
 
-//ÈÄÀ§ ¼øÈ¸
+//í›„ìœ„ ìˆœíšŒ
 postorder(TreeNode* root) {
 	if (root) {
-		postorder(root->left); //¿ŞÂÊ ¼­ºêÆ®¸® ¼øÈ¸
-		postorder(root->right); //¿À¸¥ÂÊ ¼­ºêÆ®¸® ¼øÈ¸
-		printf("%d ", root->data); //³ëµå ¹æ¹®
+		postorder(root->left); //ì™¼ìª½ ì„œë¸ŒíŠ¸ë¦¬ ìˆœíšŒ
+		postorder(root->right); //ì˜¤ë¥¸ìª½ ì„œë¸ŒíŠ¸ë¦¬ ìˆœíšŒ
+		printf("%d ", root->data); //ë…¸ë“œ ë°©ë¬¸
 	}
 }
 
@@ -58,15 +58,15 @@ int main()
 {
 	printf("\n");
 	
-	printf(" ÀüÀ§ ¼øÈ¸= ");
+	printf(" ì „ìœ„ ìˆœíšŒ= ");
 	preorder(root);
 	printf("\n\n");
 
-	printf(" ÈÄÀ§ ¼øÈ¸= ");
+	printf(" í›„ìœ„ ìˆœíšŒ= ");
 	postorder(root);
 	printf("\n\n");
 
-	printf(" ÁßÀ§ ¼øÈ¸= ");
+	printf(" ì¤‘ìœ„ ìˆœíšŒ= ");
 	inorder(root);
 	printf("\n\n");
 
