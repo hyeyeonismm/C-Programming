@@ -1,86 +1,128 @@
 #include <stdio.h>
 #include <stdlib.h>
 #pragma warning(disable:4996)
-#define MAX_QUEUE_SIZE 4 //íì˜ ë²”ìœ„ ì •ì˜
 
-typedef int element; 
-//íì™€ ë‹¤ë¥¸ ìš”ì†Œì˜ êµ¬ë¶„ì„ ìœ„í•´ ì‚¬ìš©ì ì •ì˜ìë£Œí˜• ì‚¬ìš©
+// ´ÙÇ×½Ä ¸®½ºÆ®ÀÇ ³ëµå Å¸ÀÔÀ» ±¸Á¶Ã¼·Î Á¤ÀÇ
+typedef struct ListNode {
+	int coef; //°è¼ö
+	int expon; //Áö¼ö
+	struct ListNode* link;
+}ListNode;
 
-typedef struct { //í íƒ€ì… êµ¬ì¡°ì²´ ì •ì˜
-	element data[MAX_QUEUE_SIZE];
-	int front, rear; 
-}QueueType;
+// ´ÙÇ×½Ä ¿¬°á ¸®½ºÆ®ÀÇ Çì´õ¸¦ ±¸Á¶Ã¼·Î Á¤ÀÇ
+typedef struct ListType {
+	int size;
+	ListNode* head;
+	ListNode* tail;
+}ListType;
 
-//ì˜¤ë¥˜í•¨ìˆ˜
-void error(char* message) 
+// ¿À·ù ÇÔ¼ö
+void error(char* message)
 {
 	fprintf(stderr, "%s\n", message);
 	exit(1);
 }
 
-//í ìƒì„± í•¨ìˆ˜
-void init_queue(QueueType* q) {
-	q->front = q->rear = 0; //frontì™€ rear ê°’ì„ 0ìœ¼ë¡œ ì´ˆê¸°í™”
+// ¸®½ºÆ® Çì´õ »ı¼º ÇÔ¼ö (Çì´õ ³ëµå¸¦ µ¿ÀûÀ¸·Î »ı¼ºÇÏ°í ÃÊ±âÈ­)
+ListType* create() {
+	ListType* plist = (ListType*)malloc(sizeof(ListType));
+	plist->size = 0;
+	plist->head = plist->tail = NULL;
+	return plist;
 }
 
-//ê³µë°± ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
-int is_empty(QueueType* q) { 
-	return (q->front == q->rear); //ê³µë°±ì´ë¼ë©´ frontê°’ê³¼ rearì˜ ê°’ì´ ê°™ìŒ
-}
-
-//í¬í™” ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
-int is_full(QueueType* q) {
-	return ((q->rear + 1) % MAX_QUEUE_SIZE == q->front); 
-	//íì—ì„œ rear+1ì„ MAX_QUEUE_SIZEë¡œ ë‚˜ëˆˆ ë‚˜ë¨¸ì§€ ê°’ì´ frontì™€ ê°™ìœ¼ë©´ fullì´ë‹¤.
-}
-
-//ì‚½ì… í•¨ìˆ˜
-void enqueue(QueueType* q, element item) {
-	if (is_full(q)) //íê°€ ê°€ë“ ì°¼ëŠ”ì§€ ê²€ì‚¬
-		error("íê°€ í¬í™”ìƒíƒœì…ë‹ˆë‹¤");
-	q->rear = (q->rear + 1) % MAX_QUEUE_SIZE; //íì˜ ë§ˆì§€ë§‰ ìš”ì†Œ ë’¤ë¥¼ ê°€ë¦¬í‚´
-	q->data[q->rear] = item; //ë§ˆì§€ë§‰ ìš”ì†Œ ë’¤ì— ë°ì´í„°ë¥¼ ì‚½ì…í•œë‹¤.
-}
-
-//ì‚­ì œ í•¨ìˆ˜
-element dequeue(QueueType* q) {
-	if (is_empty(q)) { //íê°€ ê³µë°±ì¸ì§€ ê²€ì‚¬
-		error("íê°€ ê³µë°±ìƒíƒœì…ë‹ˆë‹¤.");
+// plist´Â ¿¬°á ¸®½ºÆ®ÀÇ Çì´õ¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ, coef´Â °è¼ö, exponÀº Áö¼ö
+void insert_last(ListType* plist, int coef, int expon) {
+	ListNode* temp = (ListNode*)malloc(sizeof(ListNode)); //temp º¯¼ö ¼±¾ğ
+	if (temp == NULL) //¸¸¾à temp°ªÀÌ NULLÀÌ¶ó¸é ¿¡·¯ Ãâ·Â
+		error("¸Ş¸ğ¸® ÇÒ´ç ¿¡·¯");
+	temp->coef = coef;
+	temp->expon = expon;
+	temp->link = NULL;
+	if (plist->tail == NULL) {
+		plist->head = plist->tail = temp;
 	}
-	q->front = (q->front + 1) % MAX_QUEUE_SIZE; //(q->front+1)% MAX_QUEUE_SIZEëŠ” íì˜ ì•ì˜ ì²« ìš”ì†Œë¥¼ ê°€ë¦¬í‚´
-	return q->data[q->front]; //ì²« ìš”ì†Œë¥¼ ë°˜í™˜í•œë‹¤.
+	else {
+		plist->tail->link = temp;
+		plist->tail = temp;
+	}
+	plist->size++;
 }
 
-//í”¼ë³´ë‚˜ì¹˜ ìˆ˜ì—´ ê³„ì‚° í•¨ìˆ˜
-int fibonacci(QueueType* q, int n)
+// list3 = list1 + list2
+void poly_add(ListType* plist1, ListType* plist2, ListType* plist3)
 {
-	for (int i = 0; i < n; i++) //nê¹Œì§€ ë°˜ë³µë¬¸ ì‹¤í–‰
-	{
-		if (i == 0) //ë§Œì•½ iê°€ 0ì´ë©´ 0 ì¶œë ¥
-			printf("0\n");
-		if (i == 1) //ë§Œì•½ iê°€ 1ì´ë©´ 1 ì¶œë ¥
-			printf("1\n");
-		if (i >= 2) { //ë§Œì•½ iê°€ 2ë³´ë‹¤ í¬ë©´
-			int temp = dequeue(q); //temp ë³€ìˆ˜ì— íì˜ ì²« ë²ˆì§¸ ìš”ì†Œë¥¼ ì €ì¥í•œë‹¤.
-			enqueue(q, temp + (q->data[q->rear])); //íì˜ ì²« ë²ˆì§¸ ìš”ì†Œì™€ ë§ˆì§€ë§‰ ìš”ì†Œë¥¼ ë”í•´ì„œ ë§ˆì§€ë§‰ ë‹¤ìŒ ìš”ì†Œì— ì‚½ì…
-			printf("%d\n", q->data[q->rear]); //íì˜ ë§ˆì§€ë§‰ ìš”ì†Œë¥¼ ì¶œë ¥
+	ListNode* a = plist1->head;
+	ListNode* b = plist2->head;
+	int sum;
+	while (a && b) { //a¿Í b°¡ NULLÀÌ µÇ±â Àü±îÁö ¹İº¹
+		if (a->expon == b->expon) { // aÀÇ Áö¼ö¿Í bÀÇ Áö¼ö°¡ °°´Ù¸é
+			sum = a->coef + b->coef; //aÀÇ °è¼ö¿Í bÀÇ °è¼ö¸¦ ´õÇØ¼­ ÀúÀåÇÑ´Ù
+			if (sum != 0) 
+				insert_last(plist3, sum, a->expon); //list3¿¡ sum°ú aÀÇ Áö¼ö¸¦ Æ÷ÇÔÇÏ¿© ³ëµå¸¦ »ı¼ºÇÑ´Ù.
+			a = a->link; //a, b¿¡ ³ëµå¸¦ ÇÒ´çÇÑ´Ù.
+			b = b->link;
+		}
+		else if (a->expon > b->expon) { // aÀÇ Áö¼ö > bÀÇ Áö¼ö¶ó¸é
+			insert_last(plist3, a->coef, a->expon); //list3¿¡ aÀÇ °è¼ö¿Í aÀÇ Áö¼ö¸¦ Æ÷ÇÔÇÏ¿© ³ëµå¸¦ »ı¼ºÇÑ´Ù.
+			a = a->link; //a¿¡ ³ëµå¸¦ ÇÒ´çÇÑ´Ù.
+		}
+		else { // aÀÇ Áö¼ö < bÀÇ Áö¼ö¶ó¸é
+			insert_last(plist3, b->coef, b->expon); //list3¿¡ bÀÇ °è¼ö¿Í bÀÇ Áö¼ö¸¦ Æ÷ÇÔÇÏ¿© ³ëµå¸¦ »ı¼ºÇÑ´Ù.
+			b = b->link; //b¿¡ ³ëµå ÇÒ´ç
 		}
 	}
+	// a, b Áß ÇÏ³ª°¡ ¸ÕÀú ³¡³ª°Ô µÇ¸é ³²¾ÆÀÖ´Â Ç×µéÀ» ¸ğµÎ
+	// list3À¸·Î º¹»ç
+	for (; a != NULL; a = a->link)
+		insert_last(plist3, a->coef, a->expon);
+	for (; b != NULL; b = b->link)
+		insert_last(plist3, b->coef, b->expon);
+}
+
+// Ãâ·Â ÇÔ¼ö
+void poly_print(ListType* plist)
+{
+	ListNode* p = plist->head; //input¹ŞÀº head¸¦ p¿¡ ÀúÀåÇÑ´Ù.
+	for (; p; p = p->link) { //p°¡ NULLÀÌ µÉ ¶§±îÁö pÀÇ link¿¡ ´ÙÀ½ ³ëµå¸¦ ³Ö¾î°¡¸ç ¹İº¹¹® ½ÇÇà
+		printf("%d %d\n", p->coef, p->expon);
+	}
+}
+
+// ´ÙÇ×½ÄÀÇ ÇÕÀ» ±¸ÇÏ´Â ÇÔ¼ö
+void add_print(ListType* plist)
+{
+	printf("\n´ÙÇ×½ÄÀÇ ÇÕÀº: ");
+	ListNode* p = plist->head; //À§ÀÇ °úÁ¤°ú µ¿ÀÏÇÏ´Ù.
+	for (; p; p = p->link) {
+		printf("%+dx^%d", p->coef, p->expon);
+	}
+	printf("\n");
 }
 
 
-
-int main(void) {
-	QueueType q; //í ìƒì„±
-	int num = 0; //ì…ë ¥ë°›ì„ num ë³€ìˆ˜ ìƒì„±
-
-	init_queue(&q); //í ì´ˆê¸°í™”
-	enqueue(&q, 0); //ì²« ë²ˆì§¸ ìš”ì†Œì— 0 ëŒ€ì…
-	enqueue(&q, 1); //ë‘ ë²ˆì§¸ ìš”ì†Œì— 1 ëŒ€ì…
-
-	printf("ëª‡ ë²ˆì§¸ í”¼ë³´ë‚˜ì¹˜ ìˆ˜ì—´ì„ êµ¬í•˜ê² ì–´ìš”? ");
-	scanf("%d", &num);
-	fibonacci(&q, num); //í”¼ë³´ë‚˜ì¹˜ ìˆ˜ì—´ ê³„ì‚° í•¨ìˆ˜ í˜¸ì¶œ
-	system("pause"); //exeíŒŒì¼ì´ ë°”ë¡œ êº¼ì§€ì§€ ì•Šë„ë¡ í•¨
-	return 0;
+int main(void)
+{
+	ListType* list1, * list2, * list3;
+	// ¿¬°á ¸®½ºÆ® Çì´õ »ı¼º
+	list1 = create();
+	list2 = create();
+	list3 = create();
+	// ´ÙÇ×½Ä 1À» »ı¼º
+	insert_last(list1, 2, 6);
+	insert_last(list1, 7, 3);
+	insert_last(list1, -2, 2);
+	insert_last(list1, -7, 0);
+	// ´ÙÇ×½Ä 2¸¦ »ı¼º
+	insert_last(list2, -4, 6);
+	insert_last(list2, -5, 4);
+	insert_last(list2, 6, 2);
+	insert_last(list2, 6, 1);
+	insert_last(list2, 1, 0);
+	// ´ÙÇ×½Ä 3 = ´ÙÇ×½Ä 1 + ´ÙÇ×½Ä 2
+	poly_add(list1, list2, list3);
+	poly_print(list3);
+	add_print(list3);
+	free(list1); free(list2); free(list3);
+	system("pause");
 }

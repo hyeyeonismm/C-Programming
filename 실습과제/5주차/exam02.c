@@ -1,77 +1,96 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #pragma warning(disable:4996)
-#define MAX_QUEUE_SIZE 100 //ë²”ìœ„ ì •ì˜
 
-typedef struct { //í íƒ€ì… êµ¬ì¡°ì²´ ì •ì˜
-    int data[MAX_QUEUE_SIZE];
-    int front, rear;
-}QueueType;
+// ´ÙÇ×½Ä ¸®½ºÆ®ÀÇ ³ëµå Å¸ÀÔÀ» ±¸Á¶Ã¼·Î Á¤ÀÇ
+typedef struct ListNode {
+	int coef; //°è¼ö
+	int expon; //Áö¼ö
+	struct ListNode* link;
+}ListNode;
 
-int is_full(QueueType* q) {
-    if (q->rear == MAX_QUEUE_SIZE) {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+// ´ÙÇ×½Ä ¿¬°á ¸®½ºÆ®ÀÇ Çì´õ¸¦ ±¸Á¶Ã¼·Î Á¤ÀÇ
+typedef struct ListType {
+	int size;
+	ListNode* head;
+	ListNode* tail;
+}ListType;
 
+// ¿À·ù ÇÔ¼ö
+void error(char* message)
+{
+	fprintf(stderr, "%s\n", message);
+	exit(1);
 }
 
-void enqueue(QueueType* q, char item) {
-    if (is_full(q)) {
-        printf("\níê°€ í¬í™”ìƒíƒœì…ë‹ˆë‹¤");
-        return;
-    }
-    if (q->front == -1) {
-        q->front = 0;
-    }
-    q->data[++q->rear] = item;
+// ¸®½ºÆ® Çì´õ »ı¼º ÇÔ¼ö (Çì´õ ³ëµå¸¦ µ¿ÀûÀ¸·Î »ı¼ºÇÏ°í ÃÊ±âÈ­)
+ListType* create() {
+	ListType* plist = (ListType*)malloc(sizeof(ListType));
+	plist->size = 0;
+	plist->head = plist->tail = NULL;
+	return plist;
 }
 
-char dequeue_front(QueueType* q) { 
-    //íì˜ ì•ì˜ ì²« ìš”ì†Œë¥¼ ë°˜í™˜í•œë‹¤.
-    return q->data[q->front++];
+// plist´Â ¿¬°á ¸®½ºÆ®ÀÇ Çì´õ¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ, coef´Â °è¼ö, exponÀº Áö¼ö
+void insert_last(ListType* plist, int coef, int expon) {
+	ListNode* temp = (ListNode*)malloc(sizeof(ListNode)); //temp º¯¼ö ¼±¾ğ
+	if (temp == NULL) //¸¸¾à temp°ªÀÌ NULLÀÌ¶ó¸é ¿¡·¯ Ãâ·Â
+		error("¸Ş¸ğ¸® ÇÒ´ç ¿¡·¯");
+	temp->coef = coef;
+	temp->expon = expon;
+	temp->link = NULL;
+	if (plist->tail == NULL) {
+		plist->head = plist->tail = temp;
+	}
+	else {
+		plist->tail->link = temp;
+		plist->tail = temp;
+	}
+	plist->size++;
 }
 
-char dequeue_end(QueueType* q) {
-    // íì˜ ë’¤ì˜ ì²« ìš”ì†Œë¥¼ ë°˜í™˜í•œë‹¤.
-    return q->data[q->rear--];
+// Ãâ·Â ÇÔ¼ö
+void poly_print(ListType* plist)
+{
+	ListNode* p = plist->head; //input¹ŞÀº head¸¦ p¿¡ ÀúÀåÇÑ´Ù.
+	printf("polynomial = ");
+	for (; p; p = p->link) { //p°¡ NULLÀÌ µÉ ¶§±îÁö pÀÇ link¿¡ ´ÙÀ½ ³ëµå¸¦ ³Ö¾î°¡¸ç ¹İº¹¹® ½ÇÇà
+		printf("%d*x^%d + ", p->coef, p->expon);
+	}
+	printf("\n");
+}
+ // poly_eval ÇÔ¼ö
+int poly_eval(ListType* plist, int x) {
+	ListNode* p = plist->head;
+	int result, eval = 0; 
+	for (; p; p = p->link) {
+		result = 1;
+		for (int i = 0; i < p->expon; i++) //i°¡ Áö¼öº¸´Ù ÀÛ´Ù¸é ¹İº¹¹® ½ÇÇà
+			result *= x; //result = result*x
+		result = p->coef * result;
+		eval += result; //eval = eval+result
+	}
+	return eval;
 }
 
-//íšŒë¬¸ í•¨ìˆ˜
-void palindrome(QueueType* q) {
-    int ans; //ans ë³€ìˆ˜ ì„ ì–¸
-    while (q->front <= q->rear) { //frontê°€ rearì˜ ê°’ë³´ë‹¤ ê°™ê±°ë‚˜ ì‘ë‹¤ë©´ ë°˜ë³µë¬¸ ì‹¤í–‰
-        if (dequeue_front(q) != dequeue_end(q)) { //ë§Œì•½ ì²«ë²ˆì§¸ ë¬¸ìì™€ ë§ˆì§€ë§‰ ë¬¸ìê°€ ê°™ì§€ ì•Šë‹¤ë©´
-            ans = 0;
-            break; //íšŒë¬¸ì´ ì•„ë‹ˆë‹¤.
-        }
-        else {
-            ans = 1; //íšŒë¬¸ì´ë‹¤.
-        }
-    }
-    if (ans == 1) {
-        printf("íšŒë¬¸ì…ë‹ˆë‹¤");
-    }
-    else {
-        printf("ERROR");
-    }
+int main(void)
+{
+	ListType* list;
+	int x = 0;
+	list = create();
 
-}
+	/* ¹®Á¦¿Í µ¿ÀÏÇÏ°Ô °è¼ö¿Í Áö¼ö ¼³Á¤*/
+	insert_last(list, 3, 2);
+	insert_last(list, 2, 1);
+	insert_last(list, 1, 0);
 
-int main() {
-    char word[100]; //word ë¬¸ìí˜• ë°°ì—´
-    QueueType deque;
-    QueueType* q = &deque;
-    q->front = -1; //frontì™€ rearê°’ -1ë¡œ ì´ˆê¸°í™”
-    q->rear = -1;
-    printf("íšŒë¬¸ì„ íŒë³„í•  ë‹¨ì–´ë¥¼ ì…ë ¥í•˜ì„¸ìš”: \n\n");
-    scanf("%s", &word);
-    for (int i = 0; word[i] != '\0'; i++) { //ë‹¨ì–´ê°€ ê³µë°±ì´ ì•„ë‹ˆë¼ë©´ ë°˜ë³µë¬¸ ì‹¤í–‰ 
-        enqueue(q, word[i]);//íì— ë‹¨ì–´ ì €ì¥
-    }
-    
-    palindrome(q); //íšŒë¬¸í•¨ìˆ˜ ì‹¤í–‰
-    return 0;
+	
+	poly_print(list); //Ãâ·Â ÇÔ¼ö ºÒ·¯¿À±â
+	printf("¹ÌÁö¼ö xÀÇ °ª: ");
+	scanf("%d", &x); //¹ÌÁö¼öÀÇ °ª ÀÔ·Â¹Ş±â
+
+	printf("´ÙÇ×½ÄÀÇ °ª = %d\n", poly_eval(list, x));
+	free(list); //µ¿Àû ¸Ş¸ğ¸® ÇØÁ¦
+	system("pause");
 }
