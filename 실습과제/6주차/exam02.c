@@ -3,28 +3,28 @@
 #include <time.h>
 #pragma warning(disable:4996)
 
-// ´ÙÇ×½Ä ¸®½ºÆ®ÀÇ ³ëµå Å¸ÀÔÀ» ±¸Á¶Ã¼·Î Á¤ÀÇ
+// ë‹¤í•­ì‹ ë¦¬ìŠ¤íŠ¸ì˜ ë…¸ë“œ íƒ€ì…ì„ êµ¬ì¡°ì²´ë¡œ ì •ì˜
 typedef struct ListNode {
-	int coef; //°è¼ö
-	int expon; //Áö¼ö
+	int coef; //ê³„ìˆ˜
+	int expon; //ì§€ìˆ˜
 	struct ListNode* link;
 }ListNode;
 
-// ´ÙÇ×½Ä ¿¬°á ¸®½ºÆ®ÀÇ Çì´õ¸¦ ±¸Á¶Ã¼·Î Á¤ÀÇ
+// ë‹¤í•­ì‹ ì—°ê²° ë¦¬ìŠ¤íŠ¸ì˜ í—¤ë”ë¥¼ êµ¬ì¡°ì²´ë¡œ ì •ì˜
 typedef struct ListType {
 	int size;
 	ListNode* head;
 	ListNode* tail;
 }ListType;
 
-// ¿À·ù ÇÔ¼ö
+// ì˜¤ë¥˜ í•¨ìˆ˜
 void error(char* message)
 {
 	fprintf(stderr, "%s\n", message);
 	exit(1);
 }
 
-// ¸®½ºÆ® Çì´õ »ı¼º ÇÔ¼ö (Çì´õ ³ëµå¸¦ µ¿ÀûÀ¸·Î »ı¼ºÇÏ°í ÃÊ±âÈ­)
+// ë¦¬ìŠ¤íŠ¸ í—¤ë” ìƒì„± í•¨ìˆ˜ (í—¤ë” ë…¸ë“œë¥¼ ë™ì ìœ¼ë¡œ ìƒì„±í•˜ê³  ì´ˆê¸°í™”)
 ListType* create() {
 	ListType* plist = (ListType*)malloc(sizeof(ListType));
 	plist->size = 0;
@@ -32,11 +32,11 @@ ListType* create() {
 	return plist;
 }
 
-// plist´Â ¿¬°á ¸®½ºÆ®ÀÇ Çì´õ¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ, coef´Â °è¼ö, exponÀº Áö¼ö
+// plistëŠ” ì—°ê²° ë¦¬ìŠ¤íŠ¸ì˜ í—¤ë”ë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°, coefëŠ” ê³„ìˆ˜, exponì€ ì§€ìˆ˜
 void insert_last(ListType* plist, int coef, int expon) {
-	ListNode* temp = (ListNode*)malloc(sizeof(ListNode)); //temp º¯¼ö ¼±¾ğ
-	if (temp == NULL) //¸¸¾à temp°ªÀÌ NULLÀÌ¶ó¸é ¿¡·¯ Ãâ·Â
-		error("¸Ş¸ğ¸® ÇÒ´ç ¿¡·¯");
+	ListNode* temp = (ListNode*)malloc(sizeof(ListNode)); //temp ë³€ìˆ˜ ì„ ì–¸
+	if (temp == NULL) //ë§Œì•½ tempê°’ì´ NULLì´ë¼ë©´ ì—ëŸ¬ ì¶œë ¥
+		error("ë©”ëª¨ë¦¬ í• ë‹¹ ì—ëŸ¬");
 	temp->coef = coef;
 	temp->expon = expon;
 	temp->link = NULL;
@@ -50,23 +50,23 @@ void insert_last(ListType* plist, int coef, int expon) {
 	plist->size++;
 }
 
-// Ãâ·Â ÇÔ¼ö
+// ì¶œë ¥ í•¨ìˆ˜
 void poly_print(ListType* plist)
 {
-	ListNode* p = plist->head; //input¹ŞÀº head¸¦ p¿¡ ÀúÀåÇÑ´Ù.
+	ListNode* p = plist->head; //inputë°›ì€ headë¥¼ pì— ì €ì¥í•œë‹¤.
 	printf("polynomial = ");
-	for (; p; p = p->link) { //p°¡ NULLÀÌ µÉ ¶§±îÁö pÀÇ link¿¡ ´ÙÀ½ ³ëµå¸¦ ³Ö¾î°¡¸ç ¹İº¹¹® ½ÇÇà
+	for (; p; p = p->link) { //pê°€ NULLì´ ë  ë•Œê¹Œì§€ pì˜ linkì— ë‹¤ìŒ ë…¸ë“œë¥¼ ë„£ì–´ê°€ë©° ë°˜ë³µë¬¸ ì‹¤í–‰
 		printf("%d*x^%d + ", p->coef, p->expon);
 	}
 	printf("\n");
 }
- // poly_eval ÇÔ¼ö
+ // poly_eval í•¨ìˆ˜
 int poly_eval(ListType* plist, int x) {
 	ListNode* p = plist->head;
 	int result, eval = 0; 
 	for (; p; p = p->link) {
 		result = 1;
-		for (int i = 0; i < p->expon; i++) //i°¡ Áö¼öº¸´Ù ÀÛ´Ù¸é ¹İº¹¹® ½ÇÇà
+		for (int i = 0; i < p->expon; i++) //iê°€ ì§€ìˆ˜ë³´ë‹¤ ì‘ë‹¤ë©´ ë°˜ë³µë¬¸ ì‹¤í–‰
 			result *= x; //result = result*x
 		result = p->coef * result;
 		eval += result; //eval = eval+result
@@ -80,17 +80,17 @@ int main(void)
 	int x = 0;
 	list = create();
 
-	/* ¹®Á¦¿Í µ¿ÀÏÇÏ°Ô °è¼ö¿Í Áö¼ö ¼³Á¤*/
+	/* ë¬¸ì œì™€ ë™ì¼í•˜ê²Œ ê³„ìˆ˜ì™€ ì§€ìˆ˜ ì„¤ì •*/
 	insert_last(list, 3, 2);
 	insert_last(list, 2, 1);
 	insert_last(list, 1, 0);
 
 	
-	poly_print(list); //Ãâ·Â ÇÔ¼ö ºÒ·¯¿À±â
-	printf("¹ÌÁö¼ö xÀÇ °ª: ");
-	scanf("%d", &x); //¹ÌÁö¼öÀÇ °ª ÀÔ·Â¹Ş±â
+	poly_print(list); //ì¶œë ¥ í•¨ìˆ˜ ë¶ˆëŸ¬ì˜¤ê¸°
+	printf("ë¯¸ì§€ìˆ˜ xì˜ ê°’: ");
+	scanf("%d", &x); //ë¯¸ì§€ìˆ˜ì˜ ê°’ ì…ë ¥ë°›ê¸°
 
-	printf("´ÙÇ×½ÄÀÇ °ª = %d\n", poly_eval(list, x));
-	free(list); //µ¿Àû ¸Ş¸ğ¸® ÇØÁ¦
+	printf("ë‹¤í•­ì‹ì˜ ê°’ = %d\n", poly_eval(list, x));
+	free(list); //ë™ì  ë©”ëª¨ë¦¬ í•´ì œ
 	system("pause");
 }
