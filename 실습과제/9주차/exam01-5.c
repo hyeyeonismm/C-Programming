@@ -3,59 +3,59 @@
 #include <memory.h>
 #pragma warning(disable:4996)
 
-typedef struct TreeNode { //±¸Á¶Ã¼·Î ³ëµå Á¤ÀÇ
+typedef struct TreeNode { //êµ¬ì¡°ì²´ë¡œ ë…¸ë“œ ì •ì˜
 	int data;
 	struct TreeNode* left, * right;
 }TreeNode;
 
 
-//============== ¿øÇüÅ¥ ÄÚµå ½ÃÀÛ ====================//
+//============== ì›í˜•í ì½”ë“œ ì‹œì‘ ====================//
 #define MAX_QUEUE_SIZE 100
 typedef TreeNode* element;
-typedef struct { // Å¥ Å¸ÀÔ
+typedef struct { // í íƒ€ì…
 	element data[MAX_QUEUE_SIZE];
 	int front, rear;
 } QueueType;
 
-// ¿À·ù ÇÔ¼ö
+// ì˜¤ë¥˜ í•¨ìˆ˜
 void error(char* message)
 {
 	fprintf(stderr, "%s\n", message);
 	exit(1);
 }
 
-// ÃÊ±âÈ­ ÇÔ¼ö
+// ì´ˆê¸°í™” í•¨ìˆ˜
 void init_queue(QueueType* q)
 {
 	q->front = q->rear = 0;
 }
 
-// °ø¹é »óÅÂ °ËÃâ ÇÔ¼ö
+// ê³µë°± ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
 int is_empty(QueueType* q)
 {
 	return (q->front == q->rear);
 }
 
-// Æ÷È­ »óÅÂ °ËÃâ ÇÔ¼ö
+// í¬í™” ìƒíƒœ ê²€ì¶œ í•¨ìˆ˜
 int is_full(QueueType* q)
 {
 	return ((q->rear + 1) % MAX_QUEUE_SIZE == q->front);
 }
 
-// »ğÀÔ ÇÔ¼ö
+// ì‚½ì… í•¨ìˆ˜
 void enqueue(QueueType* q, element item)
 {
 	if (is_full(q))
-		error("Å¥°¡ Æ÷È­»óÅÂÀÔ´Ï´Ù");
+		error("íê°€ í¬í™”ìƒíƒœì…ë‹ˆë‹¤");
 	q->rear = (q->rear + 1) % MAX_QUEUE_SIZE;
 	q->data[q->rear] = item;
 }
 
-// »èÁ¦ ÇÔ¼ö
+// ì‚­ì œ í•¨ìˆ˜
 element dequeue(QueueType* q)
 {
 	if (is_empty(q))
-		error("Å¥°¡ °ø¹é»óÅÂÀÔ´Ï´Ù");
+		error("íê°€ ê³µë°±ìƒíƒœì…ë‹ˆë‹¤");
 	q->front = (q->front + 1) % MAX_QUEUE_SIZE;
 	return q->data[q->front];
 }
@@ -63,7 +63,7 @@ element dequeue(QueueType* q)
 void level_order(TreeNode* ptr)
 {
 	QueueType q;
-	init_queue(&q); // Å¥ ÃÊ±âÈ­
+	init_queue(&q); // í ì´ˆê¸°í™”
 	if (ptr == NULL) return;
 	enqueue(&q, ptr);
 	while (!is_empty(&q)) {
@@ -81,7 +81,7 @@ void level_order(TreeNode* ptr)
 //	   10     17       26    33
 //   4   12     19         30   35
 
-TreeNode n1 = { 4, NULL, NULL }; //°¢°¢ÀÇ ³ëµå Á¤ÀÇ
+TreeNode n1 = { 4, NULL, NULL }; //ê°ê°ì˜ ë…¸ë“œ ì •ì˜
 TreeNode n2 = { 12, NULL, NULL };
 TreeNode n3 = { 19, NULL, NULL };
 TreeNode n4 = { 10, &n1, &n2 };
@@ -97,7 +97,7 @@ TreeNode* root = &n12;
 
 int main(void)
 {
-	printf("·¹º§ ¼øÈ¸=");
+	printf("ë ˆë²¨ ìˆœíšŒ=");
 	level_order(root);
 	printf("\n");
 	return 0;
