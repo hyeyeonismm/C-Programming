@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #pragma warning(disable:4996)
-#define SWAP(a,b) {int t; t=a; a=b; b=t;} // °ª ±³È¯ÇÏ´Â ÇÔ¼ö Á¤ÀÇ
+#define SWAP(a,b) {int t; t=a; a=b; b=t;} // ê°’ êµí™˜í•˜ëŠ” í•¨ìˆ˜ ì •ì˜
 
-// ¹è¿­ Ãâ·Â ÇÔ¼ö
+// ë°°ì—´ ì¶œë ¥ í•¨ìˆ˜
 void PrintArray(int list[], int sorted, int n, int before)
 {
     int unsorted = n - sorted;
@@ -35,9 +35,9 @@ void PrintArray(int list[], int sorted, int n, int before)
 
 
     if (before == -1)
-        printf("\t\tÃÊ±â »óÅÂ\n");
+        printf("\t\tì´ˆê¸° ìƒíƒœ\n");
     else
-        printf("\t\t%d ¼±ÅÃ ÈÄ %d ±³È¯\n", list[sorted - 1], list[before]);
+        printf("\t\t%d ì„ íƒ í›„ %d êµí™˜\n", list[sorted - 1], list[before]);
 }
 void SelectionSort(int list[], int n)
 {
@@ -48,7 +48,7 @@ void SelectionSort(int list[], int n)
     for (i = 0; i < n - 1; i++)
     {
         least = i;
-        for (int j = i + 1; j < n; j++) //ÃÖ¼Ú°ª Å½»ö
+        for (int j = i + 1; j < n; j++) //ìµœì†Ÿê°’ íƒìƒ‰
             if (list[j] < list[least])
                 least = j;
         SWAP(list[i], list[least]);
@@ -60,17 +60,17 @@ void SelectionSort(int list[], int n)
 int main(void)
 {
     int num;
-    int* arr; //¹è¿­ÀÇ Æ÷ÀÎÅÍ ¼±¾ğ
-    printf("¹è¿­ÀÇ Å©±â : ");
+    int* arr; //ë°°ì—´ì˜ í¬ì¸í„° ì„ ì–¸
+    printf("ë°°ì—´ì˜ í¬ê¸° : ");
     scanf_s("%d", &num);
 
-    printf("¹è¿­ ³»¿ë ÀÔ·Â : ");
-    arr = (int*)malloc(sizeof(int) * num); //µ¿Àû ÇÒ´ç
+    printf("ë°°ì—´ ë‚´ìš© ì…ë ¥ : ");
+    arr = (int*)malloc(sizeof(int) * num); //ë™ì  í• ë‹¹
     for (int i = 0; i < num; i++)
         scanf("%d", &arr[i]);
 
     SelectionSort(arr, num);
 
-    free(arr); //µ¿ÀûÇÒ´ç ÇØÁ¦
+    free(arr); //ë™ì í• ë‹¹ í•´ì œ
     return 0;
 }
