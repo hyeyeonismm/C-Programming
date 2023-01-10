@@ -4,16 +4,16 @@
 typedef int element;
 int size;
 
-// ¼±ÅÃ Á¤·ÄÇÏ´Â ¿¬»ê
+// ì„ íƒ ì •ë ¬í•˜ëŠ” ì—°ì‚°
 void SelectionSort(int a[], int size) {
 	int i, j, t, min;
 	element temp;
-	printf("\nÁ¤·ÄÇÒ ¿ø¼Ò: ");
+	printf("\nì •ë ¬í•  ì›ì†Œ: ");
 
-	// Á¤·Ä ÀüÀÇ ¿ø¼Ò Ãâ·Â
+	// ì •ë ¬ ì „ì˜ ì›ì†Œ ì¶œë ¥
 	for (t = 0; t < size; t++)
 		printf("%d ", a[t]);
-	printf("\n\n<<<<<<< ¼±ÅÃ Á¤·Ä ¼öÇà >>>>>>>\n");
+	printf("\n\n<<<<<<< ì„ íƒ ì •ë ¬ ìˆ˜í–‰ >>>>>>>\n");
 	for (i = 0; i < size - 1; i++) {
 		min = i;
 		for (j = i + 1; j < size; j++) {
@@ -22,7 +22,7 @@ void SelectionSort(int a[], int size) {
 		temp = a[i];
 		a[i] = a[min];
 		a[min] = temp;
-		printf("\n%d´Ü°è : ", i + 1);
+		printf("\n%dë‹¨ê³„ : ", i + 1);
 		for (t = 0; t < size; t++)
 			printf("%3d ", a[t]);
 	}
@@ -30,9 +30,9 @@ void SelectionSort(int a[], int size) {
 
 
 void main() {
-	element list[6] = { 99, 49, 92, 31, 54, 88 }; //Á¤·ÄÇÒ ÃÊ±â ¿ø¼Ò ¹è¿­
+	element list[6] = { 99, 49, 92, 31, 54, 88 }; //ì •ë ¬í•  ì´ˆê¸° ì›ì†Œ ë°°ì—´
 	size = 6;
-	SelectionSort(list, size); // ¼±ÅÃÁ¤·Ä ¿¬»ê È£Ãâ
+	SelectionSort(list, size); // ì„ íƒì •ë ¬ ì—°ì‚° í˜¸ì¶œ
 	getchar();
 
 }
