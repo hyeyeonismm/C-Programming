@@ -4,13 +4,13 @@
 typedef int element;
 int size;
 
-// »ğÀÔ Á¤·Ä ÇÔ¼ö
+// ì‚½ì… ì •ë ¬ í•¨ìˆ˜
 void insertionSort(int a[], int size) {
 	int i, j, t, temp;
-	printf("\nÁ¤·ÄÇÒ ¿ø¼Ò : ");
+	printf("\nì •ë ¬í•  ì›ì†Œ : ");
 	for (t = 0; t < size; t++)
 		printf("%d ", a[t]);
-	printf("\n\n<<<<<<< »ğÀÔ Á¤·Ä ¼öÇà >>>>>>>\n");
+	printf("\n\n<<<<<<< ì‚½ì… ì •ë ¬ ìˆ˜í–‰ >>>>>>>\n");
 	for (i = 1; i < size; i++) {
 		temp = a[i];
 		j = i;
@@ -19,16 +19,16 @@ void insertionSort(int a[], int size) {
 			j = j - 1;
 		}
 		a[j] = temp;
-		printf("\n %d´Ü°è : ", i);
+		printf("\n %dë‹¨ê³„ : ", i);
 		for (t = 0; t < size; t++)
 			printf("%3d ", a[t]);
 	}
 }
 
 void main() {
-	element list[6] = { 99, 49, 92, 31, 54, 88 }; //Á¤·ÄÇÒ ÃÊ±â ¿ø¼Ò ¹è¿­
+	element list[6] = { 99, 49, 92, 31, 54, 88 }; //ì •ë ¬í•  ì´ˆê¸° ì›ì†Œ ë°°ì—´
 	size = 6;
-	insertionSort(list, size); // Á¤·Ä»ğÀÔ ¿¬»ê È£Ãâ
+	insertionSort(list, size); // ì •ë ¬ì‚½ì… ì—°ì‚° í˜¸ì¶œ
 	getchar();
 
 }
