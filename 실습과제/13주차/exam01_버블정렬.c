@@ -4,16 +4,16 @@
 typedef int element;
 int size;
 
-// ¹öºí Á¤·Ä ÇÔ¼ö
+// ë²„ë¸” ì •ë ¬ í•¨ìˆ˜
 void bubbleSort(element a[], int size) {
 	int i, j, t;
 	element temp;
-	printf("\nÁ¤·ÄÇÒ ¿ø¼Ò : ");
+	printf("\nì •ë ¬í•  ì›ì†Œ : ");
 	for (t = 0; t < size; t++)
 		printf("%d ", a[t]);
-	printf("\n\n<<<<<<< ¹öºí Á¤·Ä ¼öÇà >>>>>>>\n");
+	printf("\n\n<<<<<<< ë²„ë¸” ì •ë ¬ ìˆ˜í–‰ >>>>>>>\n");
 	for (i = size - 1; i > 0; i--) {
-		printf("\n %d´Ü°è : ", size - i);
+		printf("\n %dë‹¨ê³„ : ", size - i);
 		for (j = 0; j < i; j++) {
 			if (a[j] > a[j + 1]) {
 				temp = a[j];
@@ -28,8 +28,8 @@ void bubbleSort(element a[], int size) {
 }
 
 void main() {
-	element list[6] = { 99, 49, 92, 31, 54, 88 }; //Á¤·ÄÇÒ ÃÊ±â ¿ø¼Ò ¹è¿­
+	element list[6] = { 99, 49, 92, 31, 54, 88 }; //ì •ë ¬í•  ì´ˆê¸° ì›ì†Œ ë°°ì—´
 	size = 6;
-	bubbleSort(list, size); // ¹öºíÁ¤·Ä ¿¬»ê È£Ãâ
+	bubbleSort(list, size); // ë²„ë¸”ì •ë ¬ ì—°ì‚° í˜¸ì¶œ
 	getchar();
 }
