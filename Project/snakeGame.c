@@ -5,7 +5,7 @@
 #include <time.h>
 #pragma warning(disable:4996)
 
-/******** Å°º¸µå°ª Á¤ÀÇ ********/
+/******** í‚¤ë³´ë“œê°’ ì •ì˜ ********/
 #define WIDTH 43
 #define HEIGHT 28
 #define UP 72
@@ -15,7 +15,7 @@
 #define ESC 27
 
 
-/******** ÇÔ¼ö ¼±¾ğ ********/
+/******** í•¨ìˆ˜ ì„ ì–¸ ********/
 int speed;
 int item_x, item_y;
 int x[100], y[100];
@@ -32,15 +32,15 @@ void item();
 void gameOver();
 void move(int);
 
-/******** gotoxy ÇÔ¼ö ********/
+/******** gotoxy í•¨ìˆ˜ ********/
 void gotoxy(int x, int y, char* s) {
-	COORD pos = { x,y };//x,yÀÇ ÁÂÇ¥¸¦ ÀúÀåÇÏ´Â ±¸Á¶Ã¼
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);//Ä¿¼­¸¦ cmdÃ¢¿¡¼­ ÀÌµ¿½ÃÅ°´Â ÇÔ¼ö
+	COORD pos = { x,y };//x,yì˜ ì¢Œí‘œë¥¼ ì €ì¥í•˜ëŠ” êµ¬ì¡°ì²´
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);//ì»¤ì„œë¥¼ cmdì°½ì—ì„œ ì´ë™ì‹œí‚¤ëŠ” í•¨ìˆ˜
 	printf("%s", s);
 }
 
 
-/******** main ÇÔ¼ö ********/
+/******** main í•¨ìˆ˜ ********/
 int main() {
 	title();
 	while (1) {
@@ -66,14 +66,14 @@ int main() {
 	return 0;
 }
 
-/******** title ÇÔ¼ö ********/
+/******** title í•¨ìˆ˜ ********/
 void title() {
 	printf("\n\n\n");
-	printf("		¡á¡á¡á¡á¡á      ¡á¡á¡á¡á¡á       ¡á¡á          ¡á¡á¡á¡á¡á       ¡á¡á¡á¡á¡á\n");
-	printf("		¡á                  ¡á          ¡á  ¡á         ¡á       ¡á          ¡á\n");
-	printf("		¡á¡á¡á¡á¡á          ¡á         ¡á¡á¡á¡á        ¡á¡á¡á¡á¡á           ¡á\n");
-	printf("			¡á	    ¡á        ¡á      ¡á       ¡á      ¡á           ¡á\n");
-	printf("		¡á¡á¡á¡á¡á          ¡á       ¡á        ¡á      ¡á      ¡á           ¡á\n");
+	printf("		â– â– â– â– â–       â– â– â– â– â–        â– â–           â– â– â– â– â–        â– â– â– â– â– \n");
+	printf("		â–                   â–           â–   â–          â–        â–           â– \n");
+	printf("		â– â– â– â– â–           â–          â– â– â– â–         â– â– â– â– â–            â– \n");
+	printf("			â– 	    â–         â–       â–        â–       â–            â– \n");
+	printf("		â– â– â– â– â–           â–        â–         â–       â–       â–            â– \n");
 	printf("\n\n");
 	gotoxy(34, 12, "");
 	printf("Press 'spacebar' to start the game");
@@ -82,7 +82,7 @@ void title() {
 		if (_kbhit())
 			key = _getch();
 			if (key == 32) {
-				system("cls"); //È­¸é Áö¿ì±â
+				system("cls"); //í™”ë©´ ì§€ìš°ê¸°
 				break;
 			}
 
@@ -91,20 +91,20 @@ void title() {
 }
 
 
-/******** drawmap ÇÔ¼ö ********/
+/******** drawmap í•¨ìˆ˜ ********/
 void drawMap() {
 	for (int i = 3; i <= 28; i++) {
-		gotoxy(3, i, "¡á");
-		gotoxy(43, i, "¡á");
+		gotoxy(3, i, "â– ");
+		gotoxy(43, i, "â– ");
 	}
 	for (int j = 4; j <= 43; j++) {
-		gotoxy(j, 3, "¡á");
-		gotoxy(j, 28, "¡á");
+		gotoxy(j, 3, "â– ");
+		gotoxy(j, 28, "â– ");
 	}
 	printf("\n");
 }
 
-/******** reset ÇÔ¼ö ********/
+/******** reset í•¨ìˆ˜ ********/
 void reset() {
 	system("cls");
 	drawMap();
@@ -119,21 +119,21 @@ void reset() {
 	for (int i = 0; i < length; i++) {
 		x[i] = WIDTH / 2+i;
 		y[i] = HEIGHT / 2;
-		gotoxy(x[i], y[i], "¡Û");
+		gotoxy(x[i], y[i], "â—‹");
 	}
-	gotoxy(x[0], y[0], "¡İ");
+	gotoxy(x[0], y[0], "â—");
 	item();
 }
 
-/******** item ÇÔ¼ö ********/
+/******** item í•¨ìˆ˜ ********/
 void item() {
 	int r = 0;
 	int item_crush = 0;
 	//43, 28
 	while (1) {
-		srand((unsigned)time(NULL) + r); //°è¼Ó°ªÀÌ ¹Ù²ğ¼öÀÖµµ·Ï +rÀ»ÇØÁÜ
-		item_x = (rand() % WIDTH - 2) + 1; //1~42±îÁö
-		item_y = (rand() % HEIGHT - 2) + 1; //1~28±îÁö
+		srand((unsigned)time(NULL) + r); //ê³„ì†ê°’ì´ ë°”ë€”ìˆ˜ìˆë„ë¡ +rì„í•´ì¤Œ
+		item_x = (rand() % WIDTH - 2) + 1; //1~42ê¹Œì§€
+		item_y = (rand() % HEIGHT - 2) + 1; //1~28ê¹Œì§€
 		
 		for (int i = 0; i < length; i++) {
 			if (item_x == x[i] && item_y == y[i]) {
@@ -145,18 +145,18 @@ void item() {
 
 		if (item_crush == 1)
 			continue;
-		gotoxy(item_x, item_y, "¡Ú");
+		gotoxy(item_x, item_y, "â˜…");
 		break;
 	}
 }
 
-/******** gameOver ÇÔ¼ö ********/
+/******** gameOver í•¨ìˆ˜ ********/
 void gameOver() {
 	system("cls");
 	printf("\n\n\n");
-	gotoxy(34, 12, "¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á");
+	gotoxy(34, 12, "â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– ");
 	gotoxy(34, 14, "\t\t   GAME OVER");
-	gotoxy(34, 16, "¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á¡á");
+	gotoxy(34, 16, "â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– â– ");
 	printf("\n\n");
 	gotoxy(34, 20, "");
 	printf("\t\t  Your score is %d", score);
@@ -164,31 +164,31 @@ void gameOver() {
 	return;
 }
 
-/******** move ÇÔ¼ö ********/
+/******** move í•¨ìˆ˜ ********/
 void move(int dir) {
 	int i;
 
-	if (x[0] == item_x && y[0] == item_y) { //item°ú Ãæµ¹ÇßÀ» °æ¿ì
+	if (x[0] == item_x && y[0] == item_y) { //itemê³¼ ì¶©ëŒí–ˆì„ ê²½ìš°
 		score += 10;
-		item(); //»õ·Î¿î food Ãß°¡
+		item(); //ìƒˆë¡œìš´ food ì¶”ê°€
 		length++;
-		x[length] = x[length - 1]; //¿òÁ÷ÀÏ¼ö·Ï ÁÂÇ¥°ªÀÌ º¯ÇØ¾ßÇÏ±â ¶§¹®¿¡
-								  //Àü¿¡ ÀÖ´ø ¸öÅëÁÂÇ¥°ªÀ» »õ·Î ¿òÁ÷ÀÎ ÁÂÇ¥°ª¿¡ ³Ö¾îÁÜ 
+		x[length] = x[length - 1]; //ì›€ì§ì¼ìˆ˜ë¡ ì¢Œí‘œê°’ì´ ë³€í•´ì•¼í•˜ê¸° ë•Œë¬¸ì—
+								  //ì „ì— ìˆë˜ ëª¸í†µì¢Œí‘œê°’ì„ ìƒˆë¡œ ì›€ì§ì¸ ì¢Œí‘œê°’ì— ë„£ì–´ì¤Œ 
 		y[length] = y[length - 1];
 	}
 	if (x[0] == 3 || x[0] == WIDTH-1 || y[0] == 3 || y[0] == HEIGHT-1) {
 		gameOver();
-		return; //gameOver¿¡¼­ °ÔÀÓÀ» ´Ù½Ã ½ÃÀÛÇÏ°Ô µÇ¸é ¿©±â¼­ºÎÅÍ ¹İº¹µÇ¹Ç·Î ÃÊ±âÈ­
+		return; //gameOverì—ì„œ ê²Œì„ì„ ë‹¤ì‹œ ì‹œì‘í•˜ê²Œ ë˜ë©´ ì—¬ê¸°ì„œë¶€í„° ë°˜ë³µë˜ë¯€ë¡œ ì´ˆê¸°í™”
 	}
 
 	gotoxy(x[length - 1], y[length - 1], "  ");
-	//¹ìÀÇ ÁÂÇ¥°¡ ¿òÁ÷ÀÏ¶§¸¶´Ù ¸ÇµÚÀÇ °ªÀ» Áö¿öÁà¾ßÇÔ -> °ø¹éÃ³¸®
+	//ë±€ì˜ ì¢Œí‘œê°€ ì›€ì§ì¼ë•Œë§ˆë‹¤ ë§¨ë’¤ì˜ ê°’ì„ ì§€ì›Œì¤˜ì•¼í•¨ -> ê³µë°±ì²˜ë¦¬
 	for (i = length - 1; i > 0; i--) {
 		x[i] = x[i - 1];
 		y[i] = y[i - 1];
 	}
 
-	gotoxy(x[0], y[0], "¡Û");
+	gotoxy(x[0], y[0], "â—‹");
 	if (dir == LEFT)
 		--x[0];
 	if (dir == RIGHT)
@@ -198,6 +198,6 @@ void move(int dir) {
 	if (dir == DOWN)
 		++y[0];
 	
-	gotoxy(x[i], y[i], "¡İ");
+	gotoxy(x[i], y[i], "â—");
 };
 
